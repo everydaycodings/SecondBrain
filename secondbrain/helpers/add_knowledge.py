@@ -13,7 +13,7 @@ class AddKnowledge:
     def __init__(self) -> None:
         pass
 
-    def extract_content(self, files):
+    def extract_content(self, files, chunk_size, chunk_overlap):
 
         with tempfile.TemporaryDirectory() as temp_dir:
 
@@ -26,7 +26,7 @@ class AddKnowledge:
             
             loader = DirectoryLoader(temp_dir, glob="./*.pdf", loader_cls=PyPDFLoader)
             documents = loader.load()
-            text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+            text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
             texts = text_splitter.split_documents(documents)
             
             return texts
