@@ -35,7 +35,7 @@ def load_embedding_model(model_name, device):
 
 
 def retriver(embeddings, pages, num):
-    db_instructEmbedd = FAISS.from_documents(pages, embeddings)
+    db_instructEmbedd = Chroma.from_documents(pages, embeddings, persist_directory="s")
     retriever_sec = db_instructEmbedd.as_retriever(search_kwargs={"k": num})
 
     return retriever_sec
