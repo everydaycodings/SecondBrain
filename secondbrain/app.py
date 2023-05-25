@@ -7,7 +7,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import SupabaseVectorStore
 from supabase import Client, create_client
 from helpers.source_embedding import load_pdf, load_embedding_model, retriver, source_docs
-from helpers.add_knowledge import extract_content
+from helpers.add_knowledge import AddKnowledge
 
 
 # Set the theme
@@ -53,7 +53,8 @@ if user_choice == 'Add Knowledge':
     
     knowledge_sources = st.file_uploader(label="Upload Multiple PDFs: ", accept_multiple_files=True)
     if st.button("Add To Database"):
-        files = extract_content(knowledge_sources)
+        add_knowledge = AddKnowledge()
+        files = add_knowledge.extract_content(knowledge_sources)
         for f in files:
             st.text(f)
 

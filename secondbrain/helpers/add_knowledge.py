@@ -8,20 +8,25 @@ import streamlit as st
 import tempfile, os, glob
 
 
-def extract_content(files):
+class AddKnowledge:
 
-    with tempfile.TemporaryDirectory() as temp_dir:
+    def __init__(self) -> None:
+        pass
 
-        for uploaded_file in files:
-            asset_path = os.path.join(temp_dir, str(uploaded_file.name).split(".")[0] + ".pdf")
+    def extract_content(self, files):
 
-            with open(asset_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
+        with tempfile.TemporaryDirectory() as temp_dir:
+
+            for uploaded_file in files:
+                asset_path = os.path.join(temp_dir, str(uploaded_file.name).split(".")[0] + ".pdf")
+
+                with open(asset_path, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+                
             
-        
-        loader = DirectoryLoader(temp_dir, glob="./*.pdf", loader_cls=PyPDFLoader)
-        documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        texts = text_splitter.split_documents(documents)
-        
-        return texts
+            loader = DirectoryLoader(temp_dir, glob="./*.pdf", loader_cls=PyPDFLoader)
+            documents = loader.load()
+            text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+            texts = text_splitter.split_documents(documents)
+            
+            return texts
