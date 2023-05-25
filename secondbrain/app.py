@@ -34,12 +34,20 @@ if user_choice == 'Add Knowledge':
     chunk_size = st.sidebar.slider(label="Select Chunk Size", min_value=100, max_value=1000, step=1, value=500)
     chunk_overlap = st.sidebar.slider(label="Select Chunk Overlap", min_value=0, max_value=500, step=1, value=10)
     
+
     knowledge_sources = st.file_uploader(label="Upload Multiple PDFs: ", accept_multiple_files=True)
+
+    col1, col2= st.columns(2)
+    with col1:
+        model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
+    with col2:
+        device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
+    
     if st.button("Add To Database"):
         add_knowledge = AddKnowledge()
         files = add_knowledge.extract_content(knowledge_sources, chunk_size, chunk_overlap)
-        for f in files:
-            st.text(f)
+        st.success("Content Extracted")
+        add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device)
 
 
 if user_choice == "Source Embedding":

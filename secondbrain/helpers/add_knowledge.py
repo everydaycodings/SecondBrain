@@ -2,11 +2,13 @@ from langchain.document_loaders import TextLoader
 from langchain.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
-
-
+from InstructorEmbedding import INSTRUCTOR
+from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.vectorstores import Chroma
 import streamlit as st
 import tempfile, os, glob
 
+persist_directory = 'db'
 
 class AddKnowledge:
 
@@ -30,3 +32,24 @@ class AddKnowledge:
             texts = text_splitter.split_documents(documents)
             
             return texts
+
+        
+    def load_embedding_model(self, model_name, device_type):
+
+        instructor_embeddings = HuggingFaceInstructEmbeddings(model_name=model_name,
+                                                    model_kwargs={"device": device_type})
+
+        return instructor_embeddings
+
+    
+    def dump_embedding_files(self, texts, model_name, device_type):
+
+        embedding = self.load_embedding_model(model_name, device_type)
+
+        vectordb = Chroma.from_documents(documents=texts, 
+                                 embedding=embedding,
+                                 persist_directory=persist_directory)
+
+        vectordb.persist()
+        vectordb = None
+        st.success("Knowledge Added To DataBase")
