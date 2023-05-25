@@ -5,6 +5,7 @@ from langchain.chains import RetrievalQA
 from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import DirectoryLoader
 from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.vectorstores import FAISS
 import streamlit as st
 import tempfile, os
 
@@ -41,6 +42,6 @@ def retriver(embeddings, pages, num):
 
 
 def source_docs(retriever, prompt):
-    
+
     docs_result = retriever.get_relevant_documents(prompt)
     return docs_result
