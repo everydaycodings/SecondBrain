@@ -45,6 +45,7 @@ class AddKnowledge:
     def dump_embedding_files(self, texts, model_name, device_type):
 
         embedding = self.load_embedding_model(model_name, device_type)
+        st.info("{} Embedding has been Loaded")
 
         vectordb = Chroma.from_documents(documents=texts, 
                                  embedding=embedding,

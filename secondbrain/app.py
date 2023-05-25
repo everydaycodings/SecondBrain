@@ -44,10 +44,12 @@ if user_choice == 'Add Knowledge':
         device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
     
     if st.button("Add To Database"):
-        add_knowledge = AddKnowledge()
-        files = add_knowledge.extract_content(knowledge_sources, chunk_size, chunk_overlap)
-        st.success("Content Extracted")
-        add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device)
+        
+        with st.spinner("Adding.."):
+            add_knowledge = AddKnowledge()
+            files = add_knowledge.extract_content(knowledge_sources, chunk_size, chunk_overlap)
+            st.success("Content Extracted")
+            add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device)
 
 
 if user_choice == "Source Embedding":
