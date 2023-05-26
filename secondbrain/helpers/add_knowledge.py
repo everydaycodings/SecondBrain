@@ -7,6 +7,7 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import Chroma
 import streamlit as st
 import tempfile, os, glob
+from utils import load_embedding_model
 
 persist_directory = 'db'
 
@@ -33,18 +34,12 @@ class AddKnowledge:
             
             return texts
 
-        
-    def load_embedding_model(self, model_name, device_type):
-
-        instructor_embeddings = HuggingFaceInstructEmbeddings(model_name=model_name,
-                                                    model_kwargs={"device": device_type})
-
-        return instructor_embeddings
+    
 
     
     def dump_embedding_files(self, texts, model_name, device_type):
 
-        embedding = self.load_embedding_model(model_name, device_type)
+        embedding = load_embedding_model(model_name, device_type)
         st.info("{} Embedding has been Loaded")
 
         vectordb = Chroma.from_documents(documents=texts, 
