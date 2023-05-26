@@ -62,7 +62,7 @@ if user_choice == "Chat Source Embedding":
     with st.sidebar.expander("Configuration"):
         model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
         device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
-        embedding_storing_dir = st.selectbox(label="Enter the name of the Database: ", options=list_folder_name(folder_path= "{}/secondbrain/database".format(os.getcwd())))
+        embedding_storing_dir = st.selectbox(label="Enter the name of the Database: ", options=list_folder_name(folder_path= os.getcwd()))
         search_args = st.number_input(label="Number of Searches: ", min_value=1, value=3)
 
     def generate_answer():
