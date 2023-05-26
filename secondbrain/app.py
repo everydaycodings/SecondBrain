@@ -38,6 +38,8 @@ if user_choice == 'Add Knowledge':
         chunk_size = st.slider(label="Select Chunk Size", min_value=100, max_value=1000, step=1, value=500)
         chunk_overlap = st.slider(label="Select Chunk Overlap", min_value=0, max_value=500, step=1, value=10)
         embedding_storing_dir = st.text_input(label="Enter the name of the Database: ", value="db")
+        st.text(" ")
+        st.text(" ")
 
     knowledge_sources = st.file_uploader(label="Upload Multiple PDFs: ", accept_multiple_files=True)
 
@@ -48,7 +50,7 @@ if user_choice == 'Add Knowledge':
         with st.spinner("Adding.."):
             add_knowledge = AddKnowledge()
             files = add_knowledge.extract_content(knowledge_sources, chunk_size, chunk_overlap)
-            st.success("Content Extracted")
+            st.info("Content Extracted")
             add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
 
 
@@ -62,8 +64,10 @@ if user_choice == "Chat Source Embedding":
     with st.sidebar.expander("Configuration"):
         model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
         device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
-        embedding_storing_dir = st.selectbox(label="Enter the name of the Database: ", options=list_folder_name(curreny_path= os.getcwd()))
+        embedding_storing_dir = st.selectbox(label="Select Your Database: ", options=list_folder_name(curreny_path= os.getcwd()))
         search_args = st.number_input(label="Number of Searches: ", min_value=1, value=3)
+        st.text(" ")
+        st.text(" ")
 
     def generate_answer():
         user_message = st.session_state.input_text
