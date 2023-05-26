@@ -23,7 +23,7 @@ class ChatSourceEmbedding:
         vectordb = Chroma(persist_directory=persist_directory, 
                   embedding_function=embedding)
         
-        retriever = vectordb.as_retriever(search_kwargs={"k": 3})
+        retriever = vectordb.as_retriever(search_kwargs={"k": search_kwargs})
 
         docs = retriever.get_relevant_documents(prompt)
 
