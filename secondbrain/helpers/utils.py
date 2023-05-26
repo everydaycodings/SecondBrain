@@ -2,7 +2,7 @@ from langchain.embeddings import HuggingFaceInstructEmbeddings
 import streamlit as st
 
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource
 def load_embedding_model(model_name, device):
 
     instructor_embeddings = HuggingFaceInstructEmbeddings(model_name=model_name,
