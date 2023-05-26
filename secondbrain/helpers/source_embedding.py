@@ -16,7 +16,7 @@ class ChatSourceEmbedding:
     def __init__(self) -> None:
         pass
 
-    def embedding_chat(self, model_name, device, persist_directory, prompt):
+    def embedding_chat(self, model_name, device, persist_directory, prompt, search_kwargs):
 
         embedding = load_embedding_model(model_name, device)
 

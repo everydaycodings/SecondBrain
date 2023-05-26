@@ -67,12 +67,12 @@ if user_choice == "Chat Source Embedding":
 
     def generate_answer():
         user_message = st.session_state.input_text
-        bot_reply =  ChatSourceEmbedding().embedding_chat(model_name, device, embedding_storing_dir, user_message)
-
-        message_bot = bot_reply[0].page_content
+        bot_replys =  ChatSourceEmbedding().embedding_chat(model_name, device, embedding_storing_dir, user_message, search_args)
 
         st.session_state.embedding_history.append({"message": user_message, "is_user": True})
-        st.session_state.embedding_history.append({"message": message_bot, "is_user": False})
+
+        for bot_reply in bot_replys:
+            st.session_state.embedding_history.append({"message": bot_reply.page_content, "is_user": False})
     
 
     st.text_input("Talk to the bot", key="input_text")
