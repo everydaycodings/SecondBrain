@@ -18,3 +18,4 @@ InstructorEmbedding
 faiss-cpu
 pyngrok
 loguru
+streamlit-chat

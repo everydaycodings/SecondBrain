@@ -9,7 +9,6 @@ import streamlit as st
 import tempfile, os, glob
 from helpers.utils import load_embedding_model
 
-persist_directory = 'db'
 
 class AddKnowledge:
 
@@ -37,7 +36,7 @@ class AddKnowledge:
     
 
     
-    def dump_embedding_files(self, texts, model_name, device_type):
+    def dump_embedding_files(self, texts, model_name, device_type, persist_directory):
 
         embedding = load_embedding_model(model_name, device_type)
 
