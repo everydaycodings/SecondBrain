@@ -20,7 +20,7 @@ class ChatSourceEmbedding:
 
         embedding = load_embedding_model(model_name, device)
 
-        vectordb = Chroma(persist_directory=persist_directory, 
+        vectordb = Chroma(persist_directory="secondbrain/database/{}".format(persist_directory), 
                   embedding_function=embedding)
         
         retriever = vectordb.as_retriever(search_kwargs={"k": search_kwargs})

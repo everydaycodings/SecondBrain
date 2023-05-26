@@ -42,7 +42,7 @@ class AddKnowledge:
 
         vectordb = Chroma.from_documents(documents=texts, 
                                  embedding=embedding,
-                                 persist_directory=persist_directory)
+                                 persist_directory="secondbrain/database/{}".format(persist_directory))
 
         vectordb.persist()
         vectordb = None
