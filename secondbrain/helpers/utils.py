@@ -27,12 +27,14 @@ def list_folder_name(folder_path):
         
         else:
             folder_path = "{}/SecondBrain/secondbrain/database".format(folder_path)
+            items = os.listdir(folder_path)
             folders = [item for item in items if os.path.isdir(os.path.join(folder_path, item))]
             folders.remove(test_folder)
             return folders
     
     except:
         folder_path = "{}/SecondBrain/secondbrain/database".format(folder_path)
+        items = os.listdir(folder_path)
         folders = [item for item in items if os.path.isdir(os.path.join(folder_path, item))]
         folders.remove(test_folder)
         return folders
