@@ -139,3 +139,4 @@ dmypy.json
 examples.ipynb
 .streamlit/secrets.toml
 modules/
+extra/
