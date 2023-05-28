@@ -38,3 +38,15 @@ def list_folder_name(curreny_path):
         folders = [item for item in items if os.path.isdir(os.path.join(folder_path, item))]
         folders.remove(test_folder)
         return folders
+
+
+def get_model_path(current_path):
+
+    test_folder = "do-not-remove"
+
+
+    folder_path1 = "{}/secondbrain/models".format(current_path)
+
+    folder_path2 = "{}/SecondBrain/secondbrain/models".format(current_path)
+    
+    return [folder_path1] +[folder_path2]

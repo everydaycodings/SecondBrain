@@ -140,3 +140,4 @@ examples.ipynb
 .streamlit/secrets.toml
 modules/
 extra/
+secondbrain/models/*.bin
