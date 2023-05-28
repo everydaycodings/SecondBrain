@@ -95,14 +95,20 @@ if user_choice == "Wandering Brain":
     
     st.sidebar.title("Configuration")
     with st.sidebar.expander("Configuration"):
-        model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["ggml-gpt4all-j-v1.3-groovy.bin"])
+        model_name = st.selectbox(label="Select Your Source Model: ", options=["ggml-gpt4all-j-v1.3-groovy.bin"])
+        max_token = st.number_input(label="The maximum number of tokens to generate: ", min_value=1, value=256)
+        temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=0.8)
+        top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
+        top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
 
     if "wandering_brain" not in st.session_state:
         st.session_state.wandering_brain = []
 
     def generate_answer():
         user_message = st.session_state.input_text
-        bot_reply =  WanderingBrain().run_gpt4all(model_name, prompt=user_message, model_path=get_model_path(os.getcwd()))
+        bot_reply =  WanderingBrain().run_gpt4all(
+            model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
+            max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
 
         st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
 
@@ -119,6 +125,10 @@ if user_choice == "Wandering Brain":
             end_time = time.time()
             execution_time_minutes = (end_time - start_time) / 60
 
+    try:
+        st_message("Current Chat Execution Time: {:.2f} minutes".format(execution_time_minutes))
+    except:
+        pass
     for i, chat in enumerate(reversed(st.session_state.wandering_brain)):
         st_message(**chat, key=str(i)) #unpacking
-    st_message("Execution Time: {:.2f} minutes".format(execution_time_minutes))
+    
