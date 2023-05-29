@@ -108,7 +108,7 @@ if user_choice == "Wandering Brain":
     def generate_answer():
         user_message = st.session_state.input_text
         bot_reply =  WanderingBrain().run_gpt4all(
-            model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
+            model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
             max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
 
         st.session_state.wandering_brain.append({"message": user_message, "is_user": True})

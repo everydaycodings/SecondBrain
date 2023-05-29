@@ -46,7 +46,7 @@ class WanderingBrain:
         try:
             conversation = load_gpt4all_model(model_name, model_path[0], max_token, temp, top_p, top_k)
         except:
-            conversation = load_gpt4all_model(model_name, model_path[1])
+            conversation = load_gpt4all_model(model_name, model_path[1], max_token, temp, top_p, top_k)
         
         return conversation.predict(input=prompt)
 
