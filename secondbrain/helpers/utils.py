@@ -1,6 +1,8 @@
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 import streamlit as st
-import os
+from pathlib import Path
+from tqdm import tqdm
+import os, requests
 
 @st.cache_resource
 def load_embedding_model(model_name, device):
@@ -50,3 +52,41 @@ def get_model_path(current_path):
     folder_path2 = "{}/SecondBrain/secondbrain/models".format(current_path)
     
     return [folder_path1] +[folder_path2]
+
+
+
+def download_model(model_name, model_link, current_path):
+
+    try:
+        model_path= get_model_path(current_path)
+        local_path = "{}/{}".format(model_path[0], model_name)
+
+        # Example model. Check https://github.com/nomic-ai/gpt4all for the latest models.
+        url = 'http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin'
+
+        # send a GET request to the URL to download the file. Stream since it's large
+        response = requests.get(url, stream=True)
+
+        #open the file in binary mode and write the contents of the response to it in chunks
+        #This is a large file, so be prepared to wait.
+        with open(local_path, 'wb') as f:
+            for chunk in tqdm(response.iter_content(chunk_size=8192)):
+                if chunk:
+                    f.write(chunk)
+    
+    except:
+        model_path = get_model_path(current_path)
+        local_path = "{}/{}".format(model_path[1], model_name)
+
+        # Example model. Check https://github.com/nomic-ai/gpt4all for the latest models.
+        url = 'http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin'
+
+        # send a GET request to the URL to download the file. Stream since it's large
+        response = requests.get(url, stream=True)
+
+        #open the file in binary mode and write the contents of the response to it in chunks
+        #This is a large file, so be prepared to wait.
+        with open(local_path, 'wb') as f:
+            for chunk in tqdm(response.iter_content(chunk_size=8192)):
+                if chunk:
+                    f.write(chunk)

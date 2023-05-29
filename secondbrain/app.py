@@ -11,7 +11,7 @@ from langchain.vectorstores import SupabaseVectorStore
 from supabase import Client, create_client
 from helpers.add_knowledge import AddKnowledge
 from helpers.source_embedding import ChatSourceEmbedding
-from helpers.utils import list_folder_name, get_model_path
+from helpers.utils import list_folder_name, get_model_path, download_model
 from helpers.wandering_brain import WanderingBrain
 
 # Set the theme
@@ -27,7 +27,7 @@ st.markdown("Store your knowledge in a vector store and query it with OpenAI's G
 
 st.markdown("---\n\n")
 
-user_choice = st.sidebar.selectbox("Select Your Choice: ", options=['Add Knowledge', "Chat Source Embedding", "Wandering Brain", 'Chat with your Brain', 'Forget', "Explore"])
+user_choice = st.sidebar.selectbox("Select Your Choice: ", options=['Add Knowledge', "Chat Source Embedding", "Wandering Brain", 'Chat with your Brain', 'Forget', "Explore", "Utils"])
 
 
 if user_choice == 'Add Knowledge':
@@ -131,4 +131,18 @@ if user_choice == "Wandering Brain":
         pass
     for i, chat in enumerate(reversed(st.session_state.wandering_brain)):
         st_message(**chat, key=str(i)) #unpacking
-    
+
+
+
+if user_choice == "Utils":
+
+    st.sidebar.title("Options")
+    if st.sidebar.checkbox(label="Download Models", value=True):
+        
+        model_name = st.text_input("Enter The Model Name: ", value='model.bin')
+        model_link = st.text_area("Enter The Model Link: ", value='http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin')
+
+        if st.button("Start Downloading"):
+            with st.spinner("Downloading..."):
+                download_model(model_name=model_name, model_link=model_link, current_path=os.getcwd())
+                st.success("Model Download Completed!!")
