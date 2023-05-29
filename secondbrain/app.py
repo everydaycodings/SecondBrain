@@ -105,7 +105,9 @@ if user_choice == "Wandering Brain":
         if model_architecture == "Llama-cpp":
             gpu_acceleration = st.selectbox(label="Gpu Acceleration: ", options=[True, False])
             if gpu_acceleration:
-                n_acceleration = st.number_input(label="Number of layers: ", min_value=1, value=1)
+                n_acceleration = st.number_input(label="Number of layers: ", min_value=1, value=1000)
+            else:
+                n_acceleration = 0
 
     if "wandering_brain" not in st.session_state:
         st.session_state.wandering_brain = []

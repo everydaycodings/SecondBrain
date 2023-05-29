@@ -47,10 +47,10 @@ def load_Llama_cpp_model(model_name, model_path, max_token, temp, top_p, top_k, 
     # Verbose is required to pass to the callback manager
     
     if gpu_acceleration == False:
-        model = LlamaCpp(model_path=local_path, callback_manager=callbacks, verbose=True,cmax_tokens=max_token,temperature=temp,top_p=top_p,top_k=top_k)
+        model = LlamaCpp(model_path=local_path, callback_manager=callbacks, verbose=True, max_tokens=max_token,temperature=temp,top_p=top_p,top_k=top_k)
     
     else:
-        model = LlamaCpp(model_path=local_path, callback_manager=callbacks, verbose=True,cmax_tokens=max_token,temperature=temp,top_p=top_p,top_k=top_k, n_gpu_layers=gpu_layers)
+        model = LlamaCpp(model_path=local_path, callback_manager=callbacks, verbose=True, max_tokens=max_token,temperature=temp,top_p=top_p,top_k=top_k, n_gpu_layers=gpu_layers, n_batch=512)
 
     template = """The following is a friendly conversation between a human and an AI. The AI is very straightforward with its answer and provides specific details from its context only if asked or required. If the AI does not know the answer to a question, it truthfully says it does not know.
 
@@ -87,12 +87,12 @@ class WanderingBrain:
         
         return conversation.predict(input=prompt)
     
-    def run_Llama_cpp(self, model_name, prompt, model_path, max_token, temp, top_p, top_k, gpu_layers, gpu_acceleration=False):
+    def run_Llama_cpp(self, model_name, prompt, model_path, max_token, temp, top_p, top_k, gpu_layers, gpu_acceleration):
 
         try:
-            conversation = load_Llama_cpp_model(model_name, model_path[0], max_token, temp, top_p, top_k)
+            conversation = load_Llama_cpp_model(model_name, model_path[0], max_token, temp, top_p, top_k, gpu_layers, gpu_acceleration)
         except:
-            conversation = load_Llama_cpp_model(model_name, model_path[1], max_token, temp, top_p, top_k)
+            conversation = load_Llama_cpp_model(model_name, model_path[1], max_token, temp, top_p, top_k, gpu_layers, gpu_acceleration)
         
         return conversation.predict(input=prompt)
 
