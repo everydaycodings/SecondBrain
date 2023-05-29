@@ -23,7 +23,7 @@ st.set_page_config(
 
 
 st.title("SecondBrain 🧠")
-st.markdown("Store your knowledge in a vector store and query it with your favorite Open Source Model")
+st.markdown("Store your knowledge and query it with your favorite Open Source Model")
 
 st.markdown("---\n\n")
 
