@@ -102,12 +102,6 @@ if user_choice == "Wandering Brain":
         top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
         top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
 
-        if model_architecture == "Llama-cpp":
-            gpu_acceleration = st.selectbox(label="Gpu Acceleration: ", options=[True, False])
-            if gpu_acceleration:
-                n_acceleration = st.number_input(label="Number of layers: ", min_value=1, value=1000)
-            else:
-                n_acceleration = 0
 
     if "wandering_brain" not in st.session_state:
         st.session_state.wandering_brain = []
@@ -115,16 +109,11 @@ if user_choice == "Wandering Brain":
     def generate_answer():
         user_message = st.session_state.input_text
 
-        if model_architecture == "GPT4ALL":
-            bot_reply =  WanderingBrain().run_gpt4all(
-                model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
-                max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
+        bot_reply =  WanderingBrain().run_model(
+            model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
+            max_token=max_token, temp=temp, top_p=top_p, top_k=top_k, model_architecture=model_architecture )
         
-        if model_architecture == "Llama-cpp":
-            bot_reply =  WanderingBrain().run_Llama_cpp(
-                model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
-                max_token=max_token, temp=temp, top_p=top_p, top_k=top_k, gpu_acceleration=gpu_acceleration, gpu_layers=n_acceleration)
-
+        
         st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
 
         
