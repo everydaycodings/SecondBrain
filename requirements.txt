@@ -20,3 +20,4 @@ pyngrok
 loguru
 streamlit-chat
 gpt4all
+llama-cpp-python

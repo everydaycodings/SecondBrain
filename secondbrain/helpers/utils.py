@@ -82,7 +82,7 @@ def download_model(model_name, model_link, current_path):
         local_path = "{}/{}".format(model_path[0], model_name)
 
         # Example model. Check https://github.com/nomic-ai/gpt4all for the latest models.
-        url = 'http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin'
+        url = model_link
 
         # send a GET request to the URL to download the file. Stream since it's large
         response = requests.get(url, stream=True)
@@ -99,7 +99,7 @@ def download_model(model_name, model_link, current_path):
         local_path = "{}/{}".format(model_path[1], model_name)
 
         # Example model. Check https://github.com/nomic-ai/gpt4all for the latest models.
-        url = 'http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin'
+        url = model_link
 
         # send a GET request to the URL to download the file. Stream since it's large
         response = requests.get(url, stream=True)

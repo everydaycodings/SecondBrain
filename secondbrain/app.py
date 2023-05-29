@@ -23,7 +23,7 @@ st.set_page_config(
 
 
 st.title("SecondBrain 🧠")
-st.markdown("Store your knowledge in a vector store and query it with OpenAI's GPT-3/4.")
+st.markdown("Store your knowledge in a vector store and query it with your favorite Open Source Model")
 
 st.markdown("---\n\n")
 
@@ -102,6 +102,10 @@ if user_choice == "Wandering Brain":
         top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
         top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
 
+        if model_architecture == "Llama-cpp":
+            gpu_acceleration = st.selectbox(label="Gpu Acceleration: ", options=[True, False])
+            if gpu_acceleration:
+                n_acceleration = st.number_input(label="Number of layers: ", min_value=1, value=1)
 
     if "wandering_brain" not in st.session_state:
         st.session_state.wandering_brain = []
@@ -117,7 +121,7 @@ if user_choice == "Wandering Brain":
         if model_architecture == "Llama-cpp":
             bot_reply =  WanderingBrain().run_Llama_cpp(
                 model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
-                max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
+                max_token=max_token, temp=temp, top_p=top_p, top_k=top_k, gpu_acceleration=gpu_acceleration, gpu_layers=n_acceleration)
 
         st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
 
@@ -148,8 +152,8 @@ if user_choice == "Utils":
     st.sidebar.title("Options")
     if st.sidebar.checkbox(label="Download Models", value=True):
         st.title("Download Your Model")
-        model_name = st.text_input("Enter The Model Name: ", value='model.bin')
-        model_link = st.text_area("Enter The Model Link: ", value='http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin')
+        model_name = st.text_input("Enter The Model Name: ", placeholder='model.bin')
+        model_link = st.text_area("Enter The Model Link: ", placeholder='http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin')
 
         if st.button("Start Downloading"):
             with st.spinner("Downloading..."):
