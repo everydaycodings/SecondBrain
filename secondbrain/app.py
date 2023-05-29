@@ -11,7 +11,7 @@ from langchain.vectorstores import SupabaseVectorStore
 from supabase import Client, create_client
 from helpers.add_knowledge import AddKnowledge
 from helpers.source_embedding import ChatSourceEmbedding
-from helpers.utils import list_folder_name, get_model_path, download_model
+from helpers.utils import list_folder_name, get_model_path, download_model, list_files
 from helpers.wandering_brain import WanderingBrain
 
 # Set the theme
@@ -95,11 +95,12 @@ if user_choice == "Wandering Brain":
     
     st.sidebar.title("Configuration")
     with st.sidebar.expander("Configuration"):
-        model_name = st.selectbox(label="Select Your Source Model: ", options=["ggml-gpt4all-j-v1.3-groovy.bin"])
+        model_name = st.selectbox(label="Select Your Source Model: ", options=list_files(os.getcwd()))
         max_token = st.number_input(label="The maximum number of tokens to generate: ", min_value=1, value=256)
         temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=0.8)
         top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
         top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
+
 
     if "wandering_brain" not in st.session_state:
         st.session_state.wandering_brain = []
@@ -138,7 +139,7 @@ if user_choice == "Utils":
 
     st.sidebar.title("Options")
     if st.sidebar.checkbox(label="Download Models", value=True):
-        
+        st.title("Download Your Model")
         model_name = st.text_input("Enter The Model Name: ", value='model.bin')
         model_link = st.text_area("Enter The Model Link: ", value='http://gpt4all.io/models/ggml-gpt4all-l13b-snoozy.bin')
 

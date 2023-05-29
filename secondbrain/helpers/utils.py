@@ -42,6 +42,26 @@ def list_folder_name(curreny_path):
         return folders
 
 
+def list_files(current_path):
+    files = []
+
+    try:
+        directory = "{}/secondbrain/models".format(current_path)
+        for filename in os.listdir(directory):
+            filepath = os.path.join(directory, filename)
+            if os.path.isfile(filepath):
+                files.append(filename)
+        return files
+    
+    except:
+        directory = "{}/SecondBrain/secondbrain/models".format(current_path)
+        for filename in os.listdir(directory):
+            filepath = os.path.join(directory, filename)
+            if os.path.isfile(filepath):
+                files.append(filename)
+        return files
+
+
 def get_model_path(current_path):
 
     test_folder = "do-not-remove"
@@ -70,7 +90,7 @@ def download_model(model_name, model_link, current_path):
         #open the file in binary mode and write the contents of the response to it in chunks
         #This is a large file, so be prepared to wait.
         with open(local_path, 'wb') as f:
-            for chunk in tqdm(response.iter_content(chunk_size=8192)):
+            for chunk in tqdm(response.iter_content(chunk_size=81920)):
                 if chunk:
                     f.write(chunk)
     
