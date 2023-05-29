@@ -95,6 +95,7 @@ if user_choice == "Wandering Brain":
     
     st.sidebar.title("Configuration")
     with st.sidebar.expander("Configuration"):
+        model_architecture = st.selectbox("Select the model Architecture: ", options=["GPT4ALL", "Llama-cpp"])
         model_name = st.selectbox(label="Select Your Source Model: ", options=list_files(os.getcwd()))
         max_token = st.number_input(label="The maximum number of tokens to generate: ", min_value=1, value=256)
         temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=0.8)
@@ -107,9 +108,16 @@ if user_choice == "Wandering Brain":
 
     def generate_answer():
         user_message = st.session_state.input_text
-        bot_reply =  WanderingBrain().run_gpt4all(
-            model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
-            max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
+
+        if model_architecture == "GPT4ALL":
+            bot_reply =  WanderingBrain().run_gpt4all(
+                model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
+                max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
+        
+        if model_architecture == "Llama-cpp":
+            bot_reply =  WanderingBrain().run_Llama_cpp(
+                model_name = model_name, prompt=user_message, model_path=get_model_path(os.getcwd()),
+                max_token=max_token, temp=temp, top_p=top_p, top_k=top_k )
 
         st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
 

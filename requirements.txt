@@ -19,3 +19,4 @@ faiss-cpu
 pyngrok
 loguru
 streamlit-chat
+gpt4all
