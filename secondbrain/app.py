@@ -13,6 +13,7 @@ from helpers.add_knowledge import AddKnowledge
 from helpers.source_embedding import ChatSourceEmbedding
 from helpers.utils import list_folder_name, get_model_path, download_model, list_files
 from helpers.wandering_brain import WanderingBrain
+from helpers.chat_with_brain import run_model
 
 # Set the theme
 st.set_page_config(
@@ -27,7 +28,7 @@ st.markdown("Store your knowledge and query it with your favorite Open Source Mo
 
 st.markdown("---\n\n")
 
-user_choice = st.sidebar.selectbox("Select Your Choice: ", options=['Add Knowledge', "Chat Source Embedding", "Wandering Brain", 'Chat with your Brain', 'Forget', "Explore", "Utils"])
+user_choice = st.sidebar.selectbox("Select Your Choice: ", options=['Add Knowledge', "Chat Source Embedding", "Wandering Brain", 'Chat with Brain', 'Forget', "Explore", "Utils"])
 
 
 if user_choice == 'Add Knowledge':
@@ -114,6 +115,58 @@ if user_choice == "Wandering Brain":
             max_token=max_token, temp=temp, top_p=top_p, top_k=top_k, model_architecture=model_architecture )
         
         
+        st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
+
+        
+        st.session_state.wandering_brain.append({"message": bot_reply, "is_user": False})
+    
+
+    st.text_input("Talk to the bot", key="input_text")
+
+    if st.button("Send"):
+        with st.spinner("Thinking.."):
+            start_time = time.time()
+            generate_answer()
+            end_time = time.time()
+            execution_time_minutes = (end_time - start_time) / 60
+
+    try:
+        st_message("Current Chat Execution Time: {:.2f} minutes".format(execution_time_minutes))
+    except:
+        pass
+    for i, chat in enumerate(reversed(st.session_state.wandering_brain)):
+        st_message(**chat, key=str(i)) #unpacking
+
+
+
+if user_choice == "Chat with Brain":
+    
+    st.sidebar.title("Configuration")
+
+    with st.sidebar.expander("Configuration"):
+        db_model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
+        device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
+        embedding_storing_dir = st.selectbox(label="Select Your Database: ", options=list_folder_name(curreny_path= os.getcwd()))
+        search_args = st.number_input(label="Number of Searches: ", min_value=1, value=3)
+        model_architecture = st.selectbox("Select the model Architecture: ", options=["GPT4ALL", "Llama-cpp"])
+        model_name = st.selectbox(label="Select Your Source Model: ", options=list_files(os.getcwd()))
+        max_token = st.number_input(label="The maximum number of tokens to generate: ", min_value=1, value=256)
+        temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=0.8)
+        top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
+        top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
+
+    if "chat_with_brain" not in st.session_state:
+        st.session_state.chat_with_brain = []
+
+
+    def generate_answer():
+        user_message = st.session_state.input_text
+
+        bot_reply = run_model(db_model=db_model_name, device=device, persist_directory=embedding_storing_dir,
+                              search_kwargs=search_args, model_architecture=model_architecture, model_name=model_name,
+                              max_token=max_token, temp=temp, top_p=top_p, top_k=top_k
+                              )
+
         st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
 
         
