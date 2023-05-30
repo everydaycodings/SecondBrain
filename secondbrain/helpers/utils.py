@@ -1,4 +1,5 @@
 from langchain.embeddings import HuggingFaceInstructEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 import streamlit as st
 from pathlib import Path
 from tqdm import tqdm
@@ -7,10 +8,14 @@ import os, requests
 @st.cache_resource
 def load_embedding_model(model_name, device):
 
-    instructor_embeddings = HuggingFaceInstructEmbeddings(model_name=model_name,
-                                                      model_kwargs={"device": device})
+    if model_name == "hkunlp/instructor-xl":
+        embeddings = HuggingFaceInstructEmbeddings(model_name=model_name,
+                                                        model_kwargs={"device": device})
     
-    return instructor_embeddings
+    if model_name == "sentence-transformers/all-MiniLM-L6-v2":
+        embeddings = HuggingFaceEmbeddings(model_name=model_name)
+    
+    return embeddings
 
 
 def list_folder_name(curreny_path):

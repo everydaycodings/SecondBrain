@@ -15,6 +15,9 @@ from helpers.utils import list_folder_name, get_model_path, download_model, list
 from helpers.wandering_brain import WanderingBrain
 from helpers.chat_with_brain import run_model
 
+
+embedding_models = ["sentence-transformers/all-MiniLM-L6-v2", "hkunlp/instructor-xl"]
+
 # Set the theme
 st.set_page_config(
     page_title="SecondBrain",
@@ -36,7 +39,7 @@ if user_choice == 'Add Knowledge':
     st.sidebar.title("Configuration")
 
     with st.sidebar.expander("Configuration"):
-        model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
+        model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=embedding_models)
         device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
         chunk_size = st.slider(label="Select Chunk Size", min_value=100, max_value=1000, step=1, value=500)
         chunk_overlap = st.slider(label="Select Chunk Overlap", min_value=0, max_value=500, step=1, value=10)
@@ -65,7 +68,7 @@ if user_choice == "Chat Source Embedding":
     st.sidebar.title("Configuration")
 
     with st.sidebar.expander("Configuration"):
-        model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
+        model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=embedding_models)
         device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
         embedding_storing_dir = st.selectbox(label="Select Your Database: ", options=list_folder_name(curreny_path= os.getcwd()))
         search_args = st.number_input(label="Number of Searches: ", min_value=1, value=3)
@@ -144,7 +147,7 @@ if user_choice == "Chat with Brain":
     st.sidebar.title("Configuration")
 
     with st.sidebar.expander("Configuration"):
-        db_model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=["hkunlp/instructor-xl"])
+        db_model_name = st.selectbox(label="Select Your Source Embedding Model: ", options=embedding_models)
         device = st.selectbox(label="Select Your Device: ", options=["cuda", "cpu"])
         embedding_storing_dir = st.selectbox(label="Select Your Database: ", options=list_folder_name(curreny_path= os.getcwd()))
         search_args = st.number_input(label="Number of Searches: ", min_value=1, value=3)

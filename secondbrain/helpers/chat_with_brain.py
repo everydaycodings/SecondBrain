@@ -26,9 +26,8 @@ def load_db(model_name, device, persist_directory, search_kwargs):
         vectordb = Chroma(persist_directory="SecondBrain/secondbrain/database/{}".format(persist_directory), 
                   embedding_function=embedding)
         
-        retriever = vectordb.as_retriever(search_kwargs={"k": search_kwargs})
 
-        return retriever
+        return vectordb
     
 
 @st.cache_resource
