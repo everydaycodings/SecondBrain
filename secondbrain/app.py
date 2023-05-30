@@ -164,13 +164,14 @@ if user_choice == "Chat with Brain":
 
         bot_reply = run_model(db_model=db_model_name, device=device, persist_directory=embedding_storing_dir,
                               search_kwargs=search_args, model_architecture=model_architecture, model_name=model_name,
-                              max_token=max_token, temp=temp, top_p=top_p, top_k=top_k
+                              max_token=max_token, temp=temp, top_p=top_p, top_k=top_k, model_path=get_model_path(os.getcwd()),
+                              prompt=user_message
                               )
 
-        st.session_state.wandering_brain.append({"message": user_message, "is_user": True})
+        st.session_state.chat_with_brain.append({"message": user_message, "is_user": True})
 
         
-        st.session_state.wandering_brain.append({"message": bot_reply, "is_user": False})
+        st.session_state.chat_with_brain.append({"message": bot_reply, "is_user": False})
     
 
     st.text_input("Talk to the bot", key="input_text")
@@ -186,7 +187,7 @@ if user_choice == "Chat with Brain":
         st_message("Current Chat Execution Time: {:.2f} minutes".format(execution_time_minutes))
     except:
         pass
-    for i, chat in enumerate(reversed(st.session_state.wandering_brain)):
+    for i, chat in enumerate(reversed(st.session_state.chat_with_brain)):
         st_message(**chat, key=str(i)) #unpacking
 
 

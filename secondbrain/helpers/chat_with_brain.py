@@ -57,7 +57,11 @@ def load_model(db_model, device, persist_directory, search_kwargs, model_archite
 
 def run_model(db_model, device, persist_directory, search_kwargs, model_architecture, model_name, model_path, max_token, temp, top_p, top_k, prompt):
      
-     qa = load_model(db_model, device, persist_directory, search_kwargs, model_architecture, model_name, model_path, max_token, temp, top_p, top_k)
-     res = qa(prompt)
+    try:
+        qa = load_model(db_model, device, persist_directory, search_kwargs, model_architecture, model_name, model_path[0], max_token, temp, top_p, top_k)
+    except:
+        qa = load_model(db_model, device, persist_directory, search_kwargs, model_architecture, model_name, model_path[1], max_token, temp, top_p, top_k)
 
-     return res["result"]
+    res = qa(prompt)
+
+    return res["result"]
