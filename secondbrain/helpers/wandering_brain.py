@@ -36,7 +36,7 @@ def load__internet_model(model_architecture, model_name, model_path, max_token, 
     ]    
 
 
-    template = """The following is a friendly conversation between a human and an AI. The AI is very straightforward with its answer and provides specific details from its context only if asked or required. If the AI does not know the answer to a question, it truthfully says it does not know.
+    template = """The prompt below is a question to answer, a task to complete, or a conversation to respond to; decide which and write an appropriate response.
 
     Current conversation:
     {history}
@@ -64,12 +64,14 @@ def load_model(model_architecture, model_name, model_path, max_token, temp, top_
     if model_architecture == "Llama-cpp":
         model = LlamaCpp(model_path=local_path, callback_manager=callbacks, verbose=True, max_tokens=max_token,temperature=temp,top_p=top_p,top_k=top_k)
     
-    template = """The following is a friendly conversation between a human and an AI. The AI is very straightforward with its answer and provides specific details from its context only if asked or required. If the AI does not know the answer to a question, it truthfully says it does not know.
-
-    Current conversation:
-    {history}
-    Human: {input}
-    AI Assistant:"""
+    template = """
+            The prompt below is a question to answer, a task to complete, or a conversation to respond to; decide which and write an appropriate response.
+            
+            Current conversation:
+            {history}
+            Human: {input}
+            AI Assistant:"""
+    
     PROMPT = PromptTemplate(
         input_variables=["history", "input"], template=template
     )
