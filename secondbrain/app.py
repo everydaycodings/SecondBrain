@@ -1,7 +1,7 @@
 # main.py
 import os
 import tempfile
-import random
+import random, datetime
 import time
 import streamlit as st
 from streamlit_chat import message as st_message
@@ -129,13 +129,14 @@ if user_choice == "Wandering Brain":
 
     if st.button("Send"):
         with st.spinner("Thinking.."):
-            start_time = time.time()
+            start_time = datetime.datetime.now()
             generate_answer()
-            end_time = time.time()
-            execution_time_minutes = (end_time - start_time) / 60
+            end_time = datetime.datetime.now()
+            time_taken = end_time - start_time
+            execution_time = time_taken.total_seconds()
 
     try:
-        st_message("Current Chat Execution Time: {:.2f} minutes".format(execution_time_minutes))
+        st_message("Current Chat Execution Time: {:.1f} seconds".format(execution_time))
     except:
         pass
     for i, chat in enumerate(reversed(st.session_state.wandering_brain)):
@@ -182,13 +183,14 @@ if user_choice == "Chat with Brain":
 
     if st.button("Send"):
         with st.spinner("Thinking.."):
-            start_time = time.time()
+            start_time = datetime.datetime.now()
             generate_answer()
-            end_time = time.time()
-            execution_time_minutes = (end_time - start_time) / 60
+            end_time = datetime.datetime.now()
+            time_taken = end_time - start_time
+            execution_time = time_taken.total_seconds()
 
     try:
-        st_message("Current Chat Execution Time: {:.2f} minutes".format(execution_time_minutes))
+        st_message("Current Chat Execution Time: {:.1f} second".format(execution_time))
     except:
         pass
     for i, chat in enumerate(reversed(st.session_state.chat_with_brain)):
