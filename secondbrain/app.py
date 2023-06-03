@@ -11,7 +11,7 @@ from langchain.vectorstores import SupabaseVectorStore
 from supabase import Client, create_client
 from helpers.add_knowledge import AddKnowledge
 from helpers.source_embedding import ChatSourceEmbedding
-from helpers.utils import list_folder_name, get_model_path, download_model, list_files
+from helpers.utils import list_folder_name, get_model_path, download_model, list_files, remove_model
 from helpers.wandering_brain import WanderingBrain
 from helpers.chat_with_brain import run_model
 
@@ -208,3 +208,13 @@ if user_choice == "Utils":
             with st.spinner("Downloading..."):
                 download_model(model_name=model_name, model_link=model_link, current_path=os.getcwd())
                 st.success("Model Download Completed!!")
+    
+
+    if st.sidebar.checkbox(label="Remove Models", value=False):
+        st.title("Remove The Model")
+
+        model_select = st.multiselect(label="Select the model to remove: ", options=list_files(os.getcwd()))
+
+        if st.button("Remove Model"):
+            remove_model(current_path=os.getcwd(), models_selected=model_select)
+            st.success("{} removed".format(model_select))

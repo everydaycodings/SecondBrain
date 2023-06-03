@@ -115,3 +115,20 @@ def download_model(model_name, model_link, current_path):
             for chunk in tqdm(response.iter_content(chunk_size=8192)):
                 if chunk:
                     f.write(chunk)
+
+
+def remove_model(current_path, models_selected):
+    
+    try:
+        directory = "{}/secondbrain/models".format(current_path)
+        for models in models_selected:
+            file_path = "{}/{}".format(directory, models)
+            if os.path.exists(file_path):
+                os.remove(file_path)
+    
+    except:
+        directory = "{}/SecondBrain/secondbrain/models".format(current_path)
+        for models in models_selected:
+            file_path = "{}/{}".format(directory, models)
+            if os.path.exists(file_path):
+                os.remove(file_path)
