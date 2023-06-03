@@ -17,6 +17,7 @@ from helpers.chat_with_brain import run_model
 
 
 embedding_models = ["sentence-transformers/all-MiniLM-L6-v2", "hkunlp/instructor-xl"]
+temp_value = 0.28
 
 # Set the theme
 st.set_page_config(
@@ -102,7 +103,7 @@ if user_choice == "Wandering Brain":
         model_architecture = st.selectbox("Select the model Architecture: ", options=["GPT4ALL", "Llama-cpp"])
         model_name = st.selectbox(label="Select Your Source Model: ", options=list_files(os.getcwd()))
         max_token = st.number_input(label="The maximum number of tokens to generate: ", min_value=1, value=256)
-        temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=0.8)
+        temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=temp_value)
         top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
         top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
 
@@ -154,7 +155,7 @@ if user_choice == "Chat with Brain":
         model_architecture = st.selectbox("Select the model Architecture: ", options=["GPT4ALL", "Llama-cpp"])
         model_name = st.selectbox(label="Select Your Source Model: ", options=list_files(os.getcwd()))
         max_token = st.number_input(label="The maximum number of tokens to generate: ", min_value=1, value=256)
-        temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=0.8)
+        temp = st.slider(label="The temperature to use for sampling.", min_value=0.0, max_value=1.0, value=temp_value)
         top_p = st.slider(label="The top-p value to use for sampling.", min_value=0.0, max_value=1.0, value=0.95)
         top_k = st.slider(label="The top-k value to use for sampling.", min_value=1, max_value=100, value=40)
 

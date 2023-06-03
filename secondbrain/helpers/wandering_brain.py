@@ -60,7 +60,7 @@ def load_model(model_architecture, model_name, model_path, max_token, temp, top_
     callbacks = CallbackManager([StreamingStdOutCallbackHandler()])
     
     if model_architecture == "GPT4ALL":
-        model = GPT4All(model=local_path, callbacks=callbacks, verbose=True, n_predict=max_token, temp=temp, top_p=top_p, top_k=top_k)
+        model = GPT4All(model=local_path, verbose=False, n_predict=max_token, temp=temp, top_p=top_p, top_k=top_k)
     if model_architecture == "Llama-cpp":
         model = LlamaCpp(model_path=local_path, callback_manager=callbacks, verbose=True, max_tokens=max_token,temperature=temp,top_p=top_p,top_k=top_k)
     
@@ -79,7 +79,7 @@ def load_model(model_architecture, model_name, model_path, max_token, temp, top_
     conversation = ConversationChain(
     llm=model, 
     verbose=True, 
-    memory=ConversationBufferWindowMemory(k=2),
+    memory=ConversationBufferWindowMemory(k=10),
     callbacks=callbacks,
     prompt=PROMPT
     )
