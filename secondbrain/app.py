@@ -32,7 +32,7 @@ st.markdown("Store your knowledge and query it with your favorite Open Source Mo
 
 st.markdown("---\n\n")
 
-user_choice = st.sidebar.selectbox("Select Your Choice: ", options=['Add Knowledge', "Chat Source Embedding", "Wandering Brain", 'Chat with Brain', 'Forget', "Explore", "Utils"])
+user_choice = st.sidebar.selectbox("Select Your Choice: ", options=['Add Knowledge', "Chat Source Embedding", "Wandering Brain", 'Chat with Brain', "Utility"])
 
 
 if user_choice == 'Add Knowledge':
@@ -198,7 +198,7 @@ if user_choice == "Chat with Brain":
 
 
 
-if user_choice == "Utils":
+if user_choice == "Utility":
 
     st.sidebar.title("Options")
     if st.sidebar.checkbox(label="Download Models", value=True):
@@ -239,6 +239,6 @@ if user_choice == "Utils":
         database_name = st.text_input(label="Enter Your Database Name", placeholder="Your Database Name")
 
         if st.button("Start Importing"):
-            
+
             with st.spinner("Importing.."):
                 import_database(database_name=database_name, zipfile=upload_database, current_path=os.getcwd())
