@@ -3,7 +3,8 @@ from langchain.embeddings import HuggingFaceEmbeddings
 import streamlit as st
 from pathlib import Path
 from tqdm import tqdm
-import os, requests
+import os, requests,zipfile, tempfile, base64
+from datetime import datetime
 
 @st.cache_resource
 def load_embedding_model(model_name, device):
@@ -16,6 +17,23 @@ def load_embedding_model(model_name, device):
         embeddings = HuggingFaceEmbeddings(model_name=model_name)
     
     return embeddings
+
+
+
+def download_button(encoded, file_name):
+
+    now = datetime.now()
+    formatted_date_time = now.strftime("%Y-%m-%d_%H_%M_%S")
+
+    st.markdown(
+                    f"""
+                    <a href="data:application/zip;base64,{encoded}" download="{file_name}_{formatted_date_time}.zip">
+                        <h3>Download</h3>
+                    </a>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
 
 
 def list_folder_name(curreny_path):
@@ -132,3 +150,32 @@ def remove_model(current_path, models_selected):
             file_path = "{}/{}".format(directory, models)
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+
+def zip_folder(folder_path, output_path):
+    with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for root, dirs, files in os.walk(folder_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zipf.write(file_path, os.path.relpath(file_path, folder_path))
+
+
+def export_database(database_name, current_path):
+    folder_path = "{}/SecondBrain/secondbrain/database/{}".format(current_path, database_name)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        output_zip_path = os.path.join(temp_dir, '{}.zip'.format(database_name))
+        zip_folder(folder_path, output_zip_path)
+
+        file_size = os.path.getsize(output_zip_path)
+
+        if file_size == 22:
+            folder_path = "{}/secondbrain/database/{}".format(current_path, database_name)
+            output_zip_path = os.path.join(temp_dir, '{}.zip'.format(database_name))
+            zip_folder(folder_path, output_zip_path)
+
+    
+        with open(output_zip_path, "rb") as f:
+            encoded = base64.b64encode(f.read()).decode()
+        
+        download_button(encoded=encoded, file_name="{}-export-database".format(database_name))

@@ -11,7 +11,7 @@ from langchain.vectorstores import SupabaseVectorStore
 from supabase import Client, create_client
 from helpers.add_knowledge import AddKnowledge
 from helpers.source_embedding import ChatSourceEmbedding
-from helpers.utils import list_folder_name, get_model_path, download_model, list_files, remove_model
+from helpers.utils import list_folder_name, get_model_path, download_model, list_files, remove_model, export_database
 from helpers.wandering_brain import WanderingBrain
 from helpers.chat_with_brain import run_model
 
@@ -220,3 +220,12 @@ if user_choice == "Utils":
         if st.button("Remove Model"):
             remove_model(current_path=os.getcwd(), models_selected=model_select)
             st.success("{} removed".format(model_select))
+        
+    if st.sidebar.checkbox(label="Export Database", value=False):
+        st.title("Export Database")
+
+        database_dir = st.selectbox(label="Select Your Database: ", options=list_folder_name(curreny_path= os.getcwd()))
+        
+        if st.button("Start Exporting"):
+            with st.spinner("Exporting.."):
+                export_database(database_name=database_dir, current_path=os.getcwd())
