@@ -1,4 +1,4 @@
-langchain
+langchain==0.0.181
 Markdown==3.4.3
 openai==0.27.6
 pdf2image==1.16.3
@@ -12,12 +12,13 @@ anthropic==0.2.8
 fastapi==0.95.2
 python-multipart==0.0.6
 uvicorn==0.22.0
-chromadb
-sentence_transformers
-InstructorEmbedding
-faiss-cpu
+chromadb==0.3.25
+sentence-transformers==2.2.2
+InstructorEmbedding==1.0.0
+InstructorEmbedding==1.0.0
+faiss-cpu==1.7.4
 pyngrok
-loguru
+loguru==0.7.0
 streamlit-chat
-gpt4all
-llama-cpp-python
+gpt4all==0.2.3
+llama-cpp-python==0.1.57

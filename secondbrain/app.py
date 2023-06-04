@@ -239,6 +239,5 @@ if user_choice == "Utility":
         database_name = st.text_input(label="Enter Your Database Name", placeholder="Your Database Name")
 
         if st.button("Start Importing"):
-
             with st.spinner("Importing.."):
                 import_database(database_name=database_name, zipfile=upload_database, current_path=os.getcwd())
