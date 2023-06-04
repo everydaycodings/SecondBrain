@@ -161,6 +161,15 @@ def zip_folder(folder_path, output_path):
                 zipf.write(file_path, os.path.relpath(file_path, folder_path))
 
 
+def extract_zip(zip_file, target_folder):
+    if not os.path.exists(target_folder):
+        os.makedirs(target_folder)
+    
+    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+        zip_ref.extractall(target_folder)
+
+
+
 def export_database(database_name, current_path):
     folder_path = "{}/SecondBrain/secondbrain/database/{}".format(current_path, database_name)
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -179,3 +188,27 @@ def export_database(database_name, current_path):
             encoded = base64.b64encode(f.read()).decode()
         
         download_button(encoded=encoded, file_name="{}-export-database".format(database_name))
+
+
+
+def import_database(database_name, zipfile, current_path):
+    
+    with tempfile.TemporaryDirectory() as temp_dir:
+
+        zip_file_path = os.path.join(temp_dir, zipfile.name) 
+
+        with open(zip_file_path, "wb") as f:
+            f.write(zipfile.getbuffer())
+        
+        if current_path == "/home/ninja/vscode/SecondBrain":
+            target_folder_path = "{}/secondbrain/database/{}".format(current_path, database_name)
+            if not os.path.exists(target_folder_path):
+                os.makedirs(target_folder_path)
+            extract_zip(zip_file_path, target_folder_path)
+        
+        else:
+            target_folder_path = "{}/SecondBrain/secondbrain/database/{}".format(current_path, database_name)
+            if not os.path.exists(target_folder_path):
+                os.makedirs(target_folder_path)
+            extract_zip(zip_file_path, target_folder_path)
+        
