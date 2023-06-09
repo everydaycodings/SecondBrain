@@ -14,19 +14,6 @@ SecondBrain is your second brain in the cloud, designed to easily store and retr
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
-
-Make sure you have the following installed before continuing:
-
-- Python 3.10 or higher
-- Pip
-- Virtualenv
-
-You'll also need a [Supabase](https://supabase.com/) account for:
-
-- A new Supabase project
-- Supabase Project API key
-- Supabase Project URL
 
 
 ## Installation
