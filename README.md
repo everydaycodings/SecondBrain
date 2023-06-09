@@ -31,9 +31,9 @@ You'll also need a [Supabase](https://supabase.com/) account for:
 
 ## Installation
 
-- Clone the repository:
+- Clone the repository
 
-   ```shell
+   ```bash
    git clone https://github.com/your-username/SecondBrain.git && cd SecondBrain
   ```
 
