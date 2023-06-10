@@ -28,6 +28,7 @@ class AddKnowledge:
             
             loader = DirectoryLoader(temp_dir, glob="./*.pdf", loader_cls=PyPDFLoader)
             documents = loader.load()
+            st.text(documents)
             text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
             texts = text_splitter.split_documents(documents)
             
