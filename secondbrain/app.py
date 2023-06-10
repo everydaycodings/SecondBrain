@@ -48,7 +48,18 @@ if user_choice == 'Add Knowledge':
         st.text(" ")
         st.text(" ")
 
-    knowledge_sources = st.file_uploader(label="Upload Multiple PDFs: ", accept_multiple_files=True)
+    source_to_choose = st.multiselect(label="Choose Your Source Type: ", options=["PDF", "Wikipedia"], default="PDF")
+
+    if "PDF" in source_to_choose:
+        knowledge_sources = st.file_uploader(label="Upload Multiple PDFs: ", accept_multiple_files=True)
+    
+    if "Wikipedia" in source_to_choose:
+        col1, col2 = st.columns(2)
+
+        with col1:
+            wiki_search = st.text_input(label="Enter Your Search Text: ", placeholder="Bitcoin")
+        with col2:
+            wiki_docs_search = st.number_input(label="Select the max docs limit", min_value=1, max_value=100, value=2)
 
         
     
@@ -56,10 +67,18 @@ if user_choice == 'Add Knowledge':
         
         with st.spinner("Adding.."):
             add_knowledge = AddKnowledge()
-            if knowledge_sources != None:
-                files = add_knowledge.extract_pdf_content(knowledge_sources, chunk_size, chunk_overlap)
+
+            if "PDF" in source_to_choose:
+                if knowledge_sources != None:
+                    files = add_knowledge.extract_pdf_content(knowledge_sources, chunk_size, chunk_overlap)
+                    st.info("Content Extracted")
+                    add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
+            
+            if "Wikipedia" in source_to_choose:
+                files = add_knowledge.extract_wikepedia_content(prompt=wiki_search, max_docs=wiki_docs_search, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
                 st.info("Content Extracted")
                 add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
+
 
 
 if user_choice == "Chat Source Embedding":

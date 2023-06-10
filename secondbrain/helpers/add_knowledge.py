@@ -35,9 +35,9 @@ class AddKnowledge:
             return texts
     
     
-    def extract_wikepedia_content(self, prompt, chunk_size, chunk_overlap):
+    def extract_wikepedia_content(self, prompt, max_docs, chunk_size, chunk_overlap):
 
-        loader = WikipediaLoader(query=prompt, load_max_docs=2)
+        loader = WikipediaLoader(query=prompt, load_max_docs=max_docs)
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = text_splitter.split_documents(documents)
