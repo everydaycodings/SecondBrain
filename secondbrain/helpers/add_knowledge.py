@@ -8,7 +8,7 @@ from langchain.vectorstores import Chroma
 import streamlit as st
 import tempfile, os, glob
 from helpers.utils import load_embedding_model
-from langchain.document_loaders import WikipediaLoader
+from langchain.document_loaders import WikipediaLoader, SeleniumURLLoader
 
 
 class AddKnowledge:
@@ -34,16 +34,23 @@ class AddKnowledge:
             
             return texts
     
-    
     def extract_wikepedia_content(self, prompt, max_docs, chunk_size, chunk_overlap):
 
         loader = WikipediaLoader(query=prompt, load_max_docs=max_docs)
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = text_splitter.split_documents(documents)
-            
+        
         return texts
 
+    def extract_url_content(self, url_text, chunk_size, chunk_overlap):
+
+        loader = SeleniumURLLoader(urls=url_text)
+        documents = loader.load()
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        texts = text_splitter.split_documents(documents)
+
+        return texts
     
 
     

@@ -48,7 +48,7 @@ if user_choice == 'Add Knowledge':
         st.text(" ")
         st.text(" ")
 
-    source_to_choose = st.multiselect(label="Choose Your Source Type: ", options=["PDF", "Wikipedia"], default="PDF")
+    source_to_choose = st.multiselect(label="Choose Your Source Type: ", options=["PDF", "Wikipedia", "URL"], default="PDF")
 
     if "PDF" in source_to_choose:
         knowledge_sources = st.file_uploader(label="Upload Multiple PDFs: ", accept_multiple_files=True)
@@ -60,6 +60,9 @@ if user_choice == 'Add Knowledge':
             wiki_search = st.text_input(label="Enter Your Wikipedia Search Text: ", placeholder="Bitcoin")
         with col2:
             wiki_docs_search = st.number_input(label="Select the max docs limit: ", min_value=1, max_value=100, value=2)
+    
+    if "URL" in source_to_choose:
+        url_text = st.text_input(label="Enter the Url: ", placeholder="https://bitcoin.org/en/")
 
         
     
@@ -79,6 +82,10 @@ if user_choice == 'Add Knowledge':
                 st.info("Content Extracted")
                 add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
 
+            if "URL" in source_to_choose:
+                files = add_knowledge.extract_url_content(url_text=url_text, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+                st.info("Content Extracted")
+                add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
 
 
 if user_choice == "Chat Source Embedding":
