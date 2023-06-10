@@ -57,9 +57,9 @@ if user_choice == 'Add Knowledge':
         col1, col2 = st.columns(2)
 
         with col1:
-            wiki_search = st.text_input(label="Enter Your Search Text: ", placeholder="Bitcoin")
+            wiki_search = st.text_input(label="Enter Your Wikipedia Search Text: ", placeholder="Bitcoin")
         with col2:
-            wiki_docs_search = st.number_input(label="Select the max docs limit", min_value=1, max_value=100, value=2)
+            wiki_docs_search = st.number_input(label="Select the max docs limit: ", min_value=1, max_value=100, value=2)
 
         
     
