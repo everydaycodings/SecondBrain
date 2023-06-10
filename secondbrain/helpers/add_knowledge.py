@@ -45,7 +45,7 @@ class AddKnowledge:
 
     def extract_url_content(self, url_text, chunk_size, chunk_overlap):
 
-        loader = UnstructuredURLLoader(urls=url_text)
+        loader = UnstructuredURLLoader(urls=[url_text])
         documents = loader.load()
         text_splitter = CharacterTextSplitter(separator="\n", chunk_size=chunk_size, chunk_overlap=chunk_overlap, length_function=len)
         texts = text_splitter.split_documents(documents)
