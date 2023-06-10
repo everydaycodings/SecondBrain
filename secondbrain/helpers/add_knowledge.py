@@ -1,6 +1,6 @@
 from langchain.document_loaders import TextLoader
 from langchain.document_loaders import DirectoryLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
 from InstructorEmbedding import INSTRUCTOR
 from langchain.embeddings import HuggingFaceInstructEmbeddings
@@ -47,7 +47,7 @@ class AddKnowledge:
 
         loader = UnstructuredURLLoader(urls=url_text)
         documents = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+        text_splitter = CharacterTextSplitter(separator="\n", chunk_size=chunk_size, chunk_overlap=chunk_overlap, length_function=len)
         texts = text_splitter.split_documents(documents)
 
         return texts
