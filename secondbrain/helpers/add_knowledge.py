@@ -8,7 +8,7 @@ from langchain.vectorstores import Chroma
 import streamlit as st
 import tempfile, os, glob
 from helpers.utils import load_embedding_model
-from langchain.document_loaders import WikipediaLoader, SeleniumURLLoader
+from langchain.document_loaders import WikipediaLoader, UnstructuredURLLoader
 
 
 class AddKnowledge:
@@ -45,7 +45,7 @@ class AddKnowledge:
 
     def extract_url_content(self, url_text, chunk_size, chunk_overlap):
 
-        loader = SeleniumURLLoader(urls=url_text)
+        loader = UnstructuredURLLoader(urls=url_text)
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
         texts = text_splitter.split_documents(documents)
