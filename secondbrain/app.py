@@ -56,9 +56,10 @@ if user_choice == 'Add Knowledge':
         
         with st.spinner("Adding.."):
             add_knowledge = AddKnowledge()
-            files = add_knowledge.extract_content(knowledge_sources, chunk_size, chunk_overlap)
-            st.info("Content Extracted")
-            add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
+            if knowledge_sources != None:
+                files = add_knowledge.extract_pdf_content(knowledge_sources, chunk_size, chunk_overlap)
+                st.info("Content Extracted")
+                add_knowledge.dump_embedding_files(texts=files, model_name=model_name, device_type=device, persist_directory=embedding_storing_dir)
 
 
 if user_choice == "Chat Source Embedding":
